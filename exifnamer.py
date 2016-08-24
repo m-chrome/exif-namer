@@ -12,8 +12,7 @@ def make_cwd(args):
 
 def process_directory(work_directory):
     """Принимает на вход каталог, возвращает список *.jpg файлов"""
-    work_directory += "\\*.jpg"
-    return glob.glob(work_directory)
+    return glob.glob(work_directory + "\\*.jpg")
 
 def make_data_pattern(date_time):
     """Принимает на вход дату и меняет её под шаблон"""
@@ -30,7 +29,7 @@ def process_photo(cur_photo, cwd):
         tag_value = metadata.get("EXIF DateTimeOriginal")
         dt_pattern = make_data_pattern(tag_value.printable)
         os.rename(cur_photo, cwd + '\\' + dt_pattern + '.jpg')
-        print(cur_photo + " -> " + dt_pattern+'.jpg')
+        print(cur_photo + " -> " + cwd + '\\' + dt_pattern+'.jpg')
     else:
         print(cur_photo + " -> " + "не переименовано")
 
