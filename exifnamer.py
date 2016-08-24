@@ -1,6 +1,14 @@
-import os
-import glob
+import os, sys, glob
 import exifread
+
+def make_cwd(args):
+    """Составляет из аргументов командной строки путь к желаемому каталогу"""
+    path = ""
+    for i in range(1, len(args), 1):
+        path += args[i]
+        if i != len(args)-1:
+            path += ' '
+    return path
 
 def process_directory(work_directory):
     """Принимает на вход каталог, возвращает список *.jpg файлов"""
@@ -13,7 +21,7 @@ def make_data_pattern(date_time):
     date_time = date_time.replace(" ", "_")
     return date_time
 
-def process_photo(cur_photo):
+def process_photo(cur_photo, cwd):
     """Извлекает из фото exif-данные, на основе их переименовывает"""
     image = open(cur_photo, "rb")
     metadata = exifread.process_file(image)
@@ -21,16 +29,16 @@ def process_photo(cur_photo):
     if 'EXIF DateTimeOriginal' in metadata:
         tag_value = metadata.get("EXIF DateTimeOriginal")
         dt_pattern = make_data_pattern(tag_value.printable)
-        print(dt_pattern)
-        os.rename(cur_photo, os.getcwd() + '\\photos\\' + dt_pattern + '.jpg')
-        print(cur_photo + " -> " + tag_value.printable+'.jpg')
+        os.rename(cur_photo, cwd + '\\' + dt_pattern + '.jpg')
+        print(cur_photo + " -> " + dt_pattern+'.jpg')
     else:
         print(cur_photo + " -> " + "не переименовано")
 
 def main():
-    folder = process_directory(os.getcwd()+'\\photos')
-    for pic in folder:
-        process_photo(pic)
+    cwd_name = make_cwd(sys.argv)
+    photos = process_directory(cwd_name)
+    for photo in photos:
+        process_photo(photo, cwd_name)
 
 if __name__ == "__main__":
     print("EXIF-namer v0.1")
