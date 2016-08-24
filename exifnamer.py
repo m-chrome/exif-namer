@@ -29,9 +29,9 @@ def process_photo(cur_photo):
 
 def main():
     folder = process_directory(os.getcwd()+'\\photos')
-    print(folder)
     for pic in folder:
         process_photo(pic)
 
 if __name__ == "__main__":
+    print("EXIF-namer v0.1")
     main()
