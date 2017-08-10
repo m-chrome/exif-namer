@@ -31,12 +31,15 @@ def process_photo(cur_photo, cwd):
     if 'EXIF DateTimeOriginal' in metadata:
         tag_value = metadata.get("EXIF DateTimeOriginal")
         dt_pattern = make_data_pattern(tag_value.printable)
-        try:
+        if not os.path.isfile(dt_pattern + '.jpg'):
             os.rename(cur_photo, dt_pattern + '.jpg')
-            print(cur_photo + " -> " + dt_pattern+'.jpg')
-        except FileExistsError:
-            os.rename(cur_photo, dt_pattern + " (1)" + '.jpg')
-            print(cur_photo + " -> " + dt_pattern  + " (1)" +  '.jpg')
+            print(cur_photo + " -> " + dt_pattern + '.jpg')
+        else:
+            for i in range(1, 10, 1):
+                if not os.path.isfile(dt_pattern + "_(" + str(i)+ ")" + '.jpg'):
+                    os.rename(cur_photo, dt_pattern + "_(" + str(i) + ")" + '.jpg')
+                    print(cur_photo + " -> " + dt_pattern + "_(" + str(i)+ ")" + '.jpg')
+                    break
         renamed = 1
     else:
         print(cur_photo + " -> " + "не переименовано")
