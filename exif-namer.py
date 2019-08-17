@@ -1,5 +1,9 @@
-import os, sys, glob
+import glob
+import os
+import sys
+
 import exifread
+
 
 def make_cwd(args):
     """Составляет из аргументов командной строки путь к желаемому каталогу"""
@@ -10,10 +14,12 @@ def make_cwd(args):
             path += ' '
     return path
 
+
 def process_directory(work_directory, file_type):
     """Принимает на вход каталог, возвращает список *.file_type файлов"""
     os.chdir(work_directory)
     return glob.glob("*." + file_type)
+
 
 def make_data_pattern(date_time):
     """Принимает на вход дату и меняет её под шаблон"""
@@ -21,6 +27,7 @@ def make_data_pattern(date_time):
     date_time = date_time.replace(" ", "_")
     date_time = "IMG_" + date_time
     return date_time
+
 
 def process_photo(cur_photo, cwd):
     """Извлекает из фото exif-данные, на основе их переименовывает"""
@@ -45,6 +52,7 @@ def process_photo(cur_photo, cwd):
         print(cur_photo + " -> " + "не переименовано")
     return renamed
 
+
 def main():
     cwd_name = make_cwd(sys.argv)
     photos = process_directory(cwd_name, "jpg")
@@ -55,6 +63,7 @@ def main():
     print("\nВсего изображений:\t", len(photos))
     print("Переименовано:\t\t", pr_pics)
     print("Не переименовано:\t", len(photos)-pr_pics)
+
 
 if __name__ == "__main__":
     print("EXIF-namer")
