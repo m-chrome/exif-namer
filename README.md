@@ -1,5 +1,9 @@
 # exif-namer
-Скрипт для систематизации фотографий на основе их EXIF-метаданных. Извлекает из фотографии дату и переименовывает её по шаблону.
+A simple python script for systematization photos from different devices. 
 
-# Запуск:
-python exif-namer.py <целевой каталог с фотографиями>
+## Requirements
+* Python 3.6 or higher;
+* Package exif - https://github.com/TNThieding/exif.
+
+## Launch
+python exif-namer.py <input_path> <output_dir>
