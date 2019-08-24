@@ -24,7 +24,7 @@ def process_image(in_img_path: Path, out_img_dir: Path) -> Dict[Path, Path]:
     """ Extract EXIF data from image and return path mapping """
     with open(in_img_path, "rb") as image_file_stream:
         image = Image(image_file_stream)
-        if image.has_exif:
+        if hasattr(image, "datetime_original"):
             out_img_name = make_name(image.datetime_original)
             out_img_path = out_img_dir.joinpath(out_img_name)
         else:
